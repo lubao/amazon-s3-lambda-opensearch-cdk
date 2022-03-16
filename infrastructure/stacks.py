@@ -71,14 +71,14 @@ class S3SqsLambdaOpenSearchStack(Stack):
         # TODO install layer packages
         self._layer = _lambda.LayerVersion(
             self,'FunctionLayer',
-            code=_lambda.Code.from_asset('layer')
+            code=_lambda.Code.from_asset('src/layer')
         )
 
         self._fn = _lambda.Function(self, 'Function',
             runtime=_lambda.Runtime.PYTHON_3_8,
             handler='app.handler',
             code=_lambda.Code.from_asset(
-                path='src'
+                path='src/lambda'
             ),
             timeout=Duration.minutes(15),
             memory_size=1024,

@@ -3,7 +3,7 @@ import os
 
 import aws_cdk as cdk
 
-from infra.stacks import S3SqsLambdaOpenSearchStack
+from infrastructure.stacks import S3SqsLambdaOpenSearchStack
 
 
 app = cdk.App()
