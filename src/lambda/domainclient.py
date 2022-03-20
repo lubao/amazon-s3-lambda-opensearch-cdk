@@ -26,7 +26,6 @@ class BaseClient(object):
         credentials = boto3.Session().get_credentials()
         self._region = \
             self._region if self._region else os.environ['AWS_REGION'] 
-        # print(credentials.__dict__)
         return AWS4Auth(
             credentials.access_key, 
             credentials.secret_key, 
@@ -35,7 +34,10 @@ class BaseClient(object):
             session_token=credentials.token
         )
 
-    def _make_request(self, method, path='', headers=None, data=None, files=None):
+    def _make_request(
+            self, method, path='', headers=None, data=None, files=None
+        ):
+        
         _auth = self._auth()
         url = '/'.join([
             self._endpoint,
@@ -51,7 +53,9 @@ class BaseClient(object):
             ret=requests.put(url, auth=_auth, headers=headers, data=data)
         elif method == HTTP_POST:
             if files is not None:
-                ret=requests.post(url, auth=_auth, headers=headers, files=files)
+                ret=requests.post(
+                    url, auth=_auth, headers=headers, files=files
+                )
             else:
                 ret=requests.post(url, auth=_auth, headers=headers, data=data)
         elif method == HTTP_PATCH:
@@ -83,7 +87,7 @@ class DomainClient(BaseClient):
         )
         return res
 
-    def bulk_upload_document(self, index, data):
+    def bulk_upload_document(self, data):
         res = self._make_request(
             HTTP_POST,
             path='/_bulk',
